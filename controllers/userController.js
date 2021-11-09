@@ -13,16 +13,15 @@ const userController = {
     if (password !== passwordCheck) {
       req.flash('error_messages', '兩次輸入密碼不同！')
       console.log('兩次輸入密碼不同！')
-      return res.redirect('/signup') //OK
-      // return res.render('signup', { name, email, password })  // flash訊息會在下次重新整理才出現；saveUninitialized: true/false都一樣
-
+      return res.render('signup', { error_messages: req.flash('error_messages'), name, email, password, passwordCheck })
     } else {
       User.findOne({ where: { email } })
         .then(user => {
           if (user) {
             req.flash('error_messages', '此帳號已註冊過')
             console.log('此帳號已註冊過')
-            return res.redirect('/signup')
+            // return res.redirect('/signup')
+            return res.render('signup', { error_messages: req.flash('error_messages'), name, email, password, passwordCheck })
           } else {
             User.create({
               name, email,
