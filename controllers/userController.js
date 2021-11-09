@@ -34,6 +34,19 @@ const userController = {
           }
         })
     }
+  },
+  signInPage: (req, res) => {
+    return res.render('signin')
+  },
+  signIn: (req, res) => {
+    req.flash('success_messages', '成功登入！')
+    res.redirect('/restaurants')
+    //failureRedirect @ routers/index.js, passport.authenticate有完成認證才會進到userController.signIn
+  },
+  logOut: (req, res) => {
+    req.flash('success_messages', '成功登出！')
+    req.logout()
+    res.redirect('/signin')
   }
 }
 

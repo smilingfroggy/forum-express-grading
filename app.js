@@ -3,6 +3,7 @@ const handlebars = require('express-handlebars')
 const db = require('./models')
 const flash = require('connect-flash')
 const session = require('express-session')
+const passport = require('./config/passport')
 const app = express()
 const port = 3000
 
@@ -12,12 +13,14 @@ app.set('view engine', 'handlebars')
 
 app.use(express.urlencoded({ extented: true }))
 
-// setup session and flash message
+// setup session, passport, and flash message
 app.use(session({
   secret: 'MySecret',
   resave: false,
   saveUninitialized: false
 }))
+app.use(passport.initialize())
+app.use(passport.session())
 app.use(flash())
 
 app.use((req, res, next) => {
@@ -30,6 +33,6 @@ app.listen(port, () => {
   console.log(`Example app listening at http://localhost:${port}`)
 })
 
-require('./routes')(app)
+require('./routes')(app, passport)
 
 module.exports = app  //app測試環境用
