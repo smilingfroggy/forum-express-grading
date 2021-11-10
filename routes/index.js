@@ -26,16 +26,21 @@ module.exports = (app, passport) => {
   app.get('/admin', authenticatedAdmin, (req, res) => { res.redirect('/admin/restaurants') })
   // read all
   app.get('/admin/restaurants', authenticatedAdmin, adminController.getRestaurants)
+  
   // create
   app.get('/admin/restaurants/create', authenticatedAdmin,
     adminController.createRestaurant)
 
   app.post('/admin/restaurants', authenticatedAdmin,
     adminController.postRestaurant)
+  
   // read one
-  app.get('/admin/restaurants/:id', authenticatedAdmin,adminController.getRestaurant)
+  app.get('/admin/restaurants/:id', authenticatedAdmin, adminController.getRestaurant)
+  
   // edit one
   app.get('/admin/restaurants/:id/edit', authenticatedAdmin, adminController.editRestaurant)
+
+  app.put('/admin/restaurants/:id', authenticatedAdmin, adminController.putRestaurant)
 
   // 註冊、登入、登出
   app.get('/signup', userController.signUpPage)

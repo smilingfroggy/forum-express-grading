@@ -13,7 +13,7 @@ const adminController = {
     return res.render('admin/create')
   },
   postRestaurant: (req, res) => {
-    if (!req.body.name) {
+    if (!req.body.name) { // name欄位必填驗證
       req.flash('error_messages', "Name didn't exist")
       return res.redirect('back')
     }
@@ -39,6 +39,27 @@ const adminController = {
     return Restaurant.findByPk(req.params.id, { raw: true })
       .then(restaurant => {
         return res.render('admin/create', { restaurant })
+      })
+  },
+  putRestaurant: (req, res) => {
+    if (!req.body.name) { // name欄位必填驗證
+      req.flash('error_messages', "Name didn't exist")
+      return res.redirect('back')
+    }
+    return Restaurant.findByPk(req.params.id)
+      .then(restaurant => {
+        restaurant.update({
+          name: req.body.name,
+          tel: req.body.tel,
+          opening_hours: req.body.opening_hours,
+          address: req.body.address,
+          description: req.body.description
+        })
+
+          .then(restaurant => {
+            req.flash('success_messages', 'Restaurant was successfully to update!')
+            res.redirect('/admin/restaurants')
+          })
       })
   },
 }
