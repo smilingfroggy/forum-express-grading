@@ -14,6 +14,7 @@ app.set('view engine', 'handlebars')
 
 app.use(express.urlencoded({ extented: true }))
 app.use(methodOverride('_method'))
+app.use('/upload', express.static(__dirname + '/upload'))
 
 // setup session, passport, and flash message
 app.use(session({
