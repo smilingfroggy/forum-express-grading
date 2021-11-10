@@ -1,6 +1,7 @@
 const express = require('express')
 const handlebars = require('express-handlebars')
 const db = require('./models')
+const methodOverride = require('method-override')
 const flash = require('connect-flash')
 const session = require('express-session')
 const passport = require('./config/passport')
@@ -12,6 +13,7 @@ app.engine('handlebars', handlebars())
 app.set('view engine', 'handlebars')
 
 app.use(express.urlencoded({ extented: true }))
+app.use(methodOverride('_method'))
 
 // setup session, passport, and flash message
 app.use(session({
