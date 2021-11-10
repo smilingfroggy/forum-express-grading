@@ -35,6 +35,12 @@ const adminController = {
         return res.render('admin/restaurant', { restaurant })
       })
   },
+  editRestaurant: (req, res) => {
+    return Restaurant.findByPk(req.params.id, { raw: true })
+      .then(restaurant => {
+        return res.render('admin/create', { restaurant })
+      })
+  },
 }
 
 module.exports = adminController
