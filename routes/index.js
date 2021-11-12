@@ -15,7 +15,7 @@ module.exports = (app, passport) => {
   }
 
   const authenticatedAdmin = (req, res, next) => {
-    if (helpers.ensureAuthenticate(req)) {
+    if (helpers.ensureAuthenticated(req)) {
       if (helpers.getUser(req).isAdmin) {
         // if (req.isAuthenticated()) {
         // if (req.user.isAdmin) { 
@@ -30,7 +30,7 @@ module.exports = (app, passport) => {
 
   app.get('/restaurants', authenticated, restController.getRestaurants)
 
-  // 管理員後台 CRUD
+  // 管理員後台餐廳 CRUD
   app.get('/admin', authenticatedAdmin, (req, res) => { res.redirect('/admin/restaurants') })
   // read all
   app.get('/admin/restaurants', authenticatedAdmin, adminController.getRestaurants)
@@ -52,6 +52,11 @@ module.exports = (app, passport) => {
 
   // delete
   app.delete('/admin/restaurants/:id', authenticatedAdmin, upload.single('image'), adminController.deleteRestaurant)
+
+  // 使用者管理
+  app.get('/admin/users', authenticatedAdmin, adminController.getUsers)
+
+  app.put('/admin/users/:id/toggleAdmin', authenticatedAdmin, adminController.toggleAdmin)
 
   // 註冊、登入、登出
   app.get('/signup', userController.signUpPage)

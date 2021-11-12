@@ -1,0 +1,39 @@
+<h1>使用者名單</h1>
+
+<br />
+<br />
+
+<table class="table">
+  <thead class="thead-dark">
+    <tr>
+      <th scope="col">#</th>
+      <th scope="col">Name</th>
+      <th scope="col">Email</th>
+      <th scope="col">Created time</th>
+      <th scope="col">Authority</th>
+    </tr>
+  </thead>
+  <tbody>
+    {{#each users}}
+    <tr>
+      <th scope="row">{{this.id}}</th>
+      <td>{{this.name}}</td>
+      <td>{{this.email}}</td>
+      <td>{{this.createdAt}}</td>
+      <td>
+        {{!-- 管理員 --}}
+        {{#if this.isAdmin}}  
+        <form action="/admin/users/{{this.id}}/toggleAdmin?_method=PUT" method="POST" style="display: inline;">
+          <button type="submit" class="btn btn-success" data-toggle="tooltip" data-placement="top" title="Remove from admin"><i class="fas fa-user-shield"></i></button>
+        </form>
+        {{!-- 一般使用者 --}}
+        {{else}}
+        <form action="/admin/users/{{this.id}}/toggleAdmin?_method=PUT" method="POST" style="display: inline;">
+          <button type="submit" class="btn btn-secondary" data-toggle="tooltip" data-placement="top" title="Add to admin"><i class="fas fa-user-shield"></i></button>
+        </form>
+        {{/if}}
+      </td>
+    </tr>
+    {{/each}}
+  </tbody>
+</table>

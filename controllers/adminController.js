@@ -1,6 +1,7 @@
 const fs = require('fs')
 const db = require('../models')
 const Restaurant = db.Restaurant
+const User = db.User
 const imgur = require('imgur-node-api')
 const IMGUR_CLIENT_ID = process.env.IMGUR_CLIENT_ID
 
@@ -113,6 +114,45 @@ const adminController = {
           .then(restaurant => {
             res.redirect('/admin/restaurants')
           })
+      })
+  },
+  // R01: 顯示使用者清單
+  getUsers: (req, res) => {
+    return User.findAll({ raw: true })
+      .then(users => {
+        res.render("admin/users", { users })
+      })
+  },
+  // R01: 修改使用者權限
+  toggleAdmin: (req, res) => {
+    return User.findByPk(req.params.id)   //try不用, { raw: true }
+      .then(user => {
+        // root 最高管理員禁止變更權限
+        if (user.email == 'root@example.com') {
+          req.flash('error_messages', '禁止變更管理者權限')
+          return res.redirect('back')
+        } else {
+          // 一般使用者isAdmin 0->1 或 1->0
+          if (!user.isAdmin) {  //false / 0
+            user.update({
+              isAdmin: true
+            })
+              .then(() => {
+                req.flash('success_messages', '使用者權限變更成功')
+                res.redirect('/admin/users')
+              })
+              .catch(err => console.log(err))
+          } else {
+            user.update({
+              isAdmin: false
+            })
+              .then(() => {
+                req.flash('success_messages', '使用者權限變更成功')
+                res.redirect('/admin/users')
+              })
+              .catch(err => console.log(err))
+          }
+        }
       })
   }
 }
