@@ -125,35 +125,24 @@ const adminController = {
   },
   // R01: 修改使用者權限
   toggleAdmin: (req, res) => {
-    return User.findByPk(req.params.id)   //try不用, { raw: true }
+    return User.findByPk(req.params.id)   //不用, { raw: true }，否則Error: user.update is not a function 
       .then(user => {
         // root 最高管理員禁止變更權限
         if (user.email == 'root@example.com') {
           req.flash('error_messages', '禁止變更管理者權限')
           return res.redirect('back')
-        } else {
-          // 一般使用者isAdmin 0->1 或 1->0
-          if (!user.isAdmin) {  //false / 0
-            user.update({
-              isAdmin: true
-            })
-              .then(() => {
-                req.flash('success_messages', '使用者權限變更成功')
-                res.redirect('/admin/users')
-              })
-              .catch(err => console.log(err))
-          } else {
-            user.update({
-              isAdmin: false
-            })
-              .then(() => {
-                req.flash('success_messages', '使用者權限變更成功')
-                res.redirect('/admin/users')
-              })
-              .catch(err => console.log(err))
-          }
         }
+        // 一般使用者isAdmin 0->1 或 1->0
+        const isAdmin = user.toJSON().isAdmin
+        user.update({
+          isAdmin: !isAdmin
+        })
+          .then(() => {
+            req.flash('success_messages', '使用者權限變更成功')
+            return res.redirect('/admin/users')
+          })
       })
+      .catch(err => console.log(err))
   }
 }
 
