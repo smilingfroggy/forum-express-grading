@@ -22,14 +22,18 @@
       <td>{{this.createdAt}}</td>
       <td>
         {{!-- 管理員 --}}
-        {{#if this.isAdmin}}  
-        <form action="/admin/users/{{this.id}}/toggleAdmin?_method=PUT" method="POST" style="display: inline;">
-          <button type="submit" class="btn btn-success" data-toggle="tooltip" data-placement="top" title="Remove from admin"><i class="fas fa-user-shield"></i></button>
+        {{#if this.isAdmin}}
+        <form action="/admin/users/{{this.id}}/toggleAdmin?_method=PUT" method="POST" style="display: inline;"
+          onclick="return confirm(`Are you sure you want to remove admin?`)">
+          <button type="submit" class="btn btn-success" data-toggle="tooltip" data-placement="top"
+            title="Remove from admin"><i class="fas fa-user-shield"></i></button>
         </form>
         {{!-- 一般使用者 --}}
         {{else}}
-        <form action="/admin/users/{{this.id}}/toggleAdmin?_method=PUT" method="POST" style="display: inline;">
-          <button type="submit" class="btn btn-secondary" data-toggle="tooltip" data-placement="top" title="Add to admin"><i class="fas fa-user-shield"></i></button>
+        <form action="/admin/users/{{this.id}}/toggleAdmin?_method=PUT" method="POST" style="display: inline;"
+          onclick="return confirm(`Are you sure you want to add admin?`)">
+          <button type="submit" class="btn btn-secondary" data-toggle="tooltip" data-placement="top"
+            title="Add to admin"><i class="fas fa-user-shield"></i></button>
         </form>
         {{/if}}
       </td>
