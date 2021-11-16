@@ -1,6 +1,7 @@
 const restController = require('../controllers/restController')
 const adminController = require('../controllers/adminController')
 const userController = require('../controllers/userController')
+const categoryController = require('../controllers/categoryController')
 const multer = require('multer')
 const upload = multer({ dest: 'temp/' })
 const helpers = require('../_helpers')
@@ -52,6 +53,11 @@ module.exports = (app, passport) => {
 
   // delete
   app.delete('/admin/restaurants/:id', authenticatedAdmin, adminController.deleteRestaurant)
+
+  // 分類管理
+  // read all
+  app.get('/admin/categories', authenticatedAdmin, categoryController.getCategories)
+
 
   // 使用者管理
   app.get('/admin/users', authenticatedAdmin, adminController.getUsers)
