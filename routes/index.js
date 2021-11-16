@@ -31,6 +31,8 @@ module.exports = (app, passport) => {
 
   app.get('/restaurants', authenticated, restController.getRestaurants)
 
+  app.get('/restaurants/:id', authenticated, restController.getRestaurant)
+
   // 管理員後台餐廳 CRUD
   app.get('/admin', authenticatedAdmin, (req, res) => { res.redirect('/admin/restaurants') })
   // read all
