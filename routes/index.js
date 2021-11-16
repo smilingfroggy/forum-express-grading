@@ -59,6 +59,9 @@ module.exports = (app, passport) => {
   app.get('/admin/categories', authenticatedAdmin, categoryController.getCategories)
   // create new category
   app.post('/admin/categories', authenticatedAdmin, categoryController.postCategory)
+  // update
+  app.get('/admin/categories/:id', authenticatedAdmin, categoryController.getCategories)
+  app.put('/admin/categories/:id', authenticatedAdmin, categoryController.putCategory)
 
   // 使用者管理
   app.get('/admin/users', authenticatedAdmin, adminController.getUsers)

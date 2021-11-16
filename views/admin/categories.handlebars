@@ -8,10 +8,18 @@
 <br />
 
 <div class="d-flex align-items-center p-3 my-3 text-white-50 bg-purple rounded shadow-sm">
+  {{#if category}}
+  <form action="/admin/categories/{{category.id}}?_method=PUT" method="POST">
+    <input type="text" name="name" placeholder="New category name" value="{{category.name}}">
+    <button type="submit">Update</button>
+    <a href="/admin/categories">Or create new category</a>
+  </form>
+  {{else}}
   <form action="/admin/categories" method="POST">
     <input type="text" name="name" placeholder="New category name">
     <button type="submit">Create</button>
   </form>
+  {{/if}}
 </div>
 
 <br />
@@ -31,12 +39,12 @@
       <td>{{this.name}}</td>
       <td>
         <button type="button" class="btn btn-link">
-          <a href="/admin/restaurants/{{this.id}}">
+          <a href="/admin/categories/{{this.id}}">
             Edit
           </a>
         </button>
 
-        <form action="/admin/restaurants/{{this.id}}?_method=DELETE" method="post" style="display: inline;">
+        <form action="/admin/categories/{{this.id}}?_method=DELETE" method="post" style="display: inline;">
           <button type="submit" class="btn btn-link">DELETE</button>
         </form>
       </td>
