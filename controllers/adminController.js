@@ -19,7 +19,10 @@ const adminController = {
       })
   },
   createRestaurant: (req, res) => {
-    return res.render('admin/create')
+    Category.findAll({ raw: true, nest: true })
+      .then(categories => {
+        return res.render('admin/create', { categories: categories })
+      })
   },
   postRestaurant: (req, res) => {
     if (!req.body.name) { // name欄位必填驗證
@@ -32,6 +35,7 @@ const adminController = {
       imgur.upload(file.path, (err, img) => {
         return Restaurant.create({
           name: req.body.name,
+          CategoryId: req.body.categoryId,
           tel: req.body.tel,
           address: req.body.address,
           opening_hours: req.body.opening_hour,
@@ -46,6 +50,7 @@ const adminController = {
     } else {
       return Restaurant.create({
         name: req.body.name,
+        CategoryId: req.body.categoryId,
         tel: req.body.tel,
         address: req.body.address,
         opening_hours: req.body.opening_hour,
@@ -65,10 +70,17 @@ const adminController = {
       })
   },
   editRestaurant: (req, res) => {
-    return Restaurant.findByPk(req.params.id, { raw: true })
-      .then(restaurant => {
-        return res.render('admin/create', { restaurant })
+    Category.findAll({ raw: true, nest: true })
+      .then(categories => {
+        return Restaurant.findByPk(req.params.id)
+          .then(restaurant => {
+            return res.render('admin/create', {
+              restaurant: restaurant.toJSON(),
+              categories: categories
+            })
+          })
       })
+
   },
   putRestaurant: (req, res) => {
     if (!req.body.name) { // name欄位必填驗證
@@ -83,6 +95,7 @@ const adminController = {
           .then(restaurant => {
             restaurant.update({
               name: req.body.name,
+              CategoryId: req.body.categoryId,
               tel: req.body.tel,
               opening_hours: req.body.opening_hours,
               address: req.body.address,
@@ -99,6 +112,7 @@ const adminController = {
         .then(restaurant => {
           restaurant.update({
             name: req.body.name,
+            CategoryId: req.body.categoryId,
             tel: req.body.tel,
             opening_hours: req.body.opening_hours,
             address: req.body.address,

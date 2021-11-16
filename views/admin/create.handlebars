@@ -5,25 +5,36 @@
     {{/if}}
     <div class="form-group">
       <label for="name">Name</label>
-      <input type="text" name="name" id="name" class="form-control" placeholder="Enter name" value={{restaurant.name}}>
+      <input type="text" name="name" id="name" class="form-control" placeholder="Enter name"
+        value="{{restaurant.name}}">
+    </div>
+
+    <div class="form-group">
+      <label for="categoryId">Category</label>
+      <select class="form-control" name="categoryId" id="categoryId">
+        {{#each categories}}
+        <option value="{{this.id}}" 
+          {{this.name}}</option>
+        {{/each}}
+      </select>
     </div>
 
     <div class="form-group">
       <label for="tel">Tel</label>
       <input type="text" name="tel" id="tel" class="form-control" placeholder="Enter telephone"
-        value={{restaurant.tel}}>
+        value="{{restaurant.tel}}">
     </div>
 
     <div class="form-group">
       <label for="address">Address</label>
       <input type="text" name="address" id="address" class="form-control" placeholder="Enter address"
-        value={{restaurant.address}}>
+        value="{{restaurant.address}}">
     </div>
 
     <div class="form-group">
       <label for="opening_hours">Opening Hours</label>
       <input type="text" name="opening_hours" id="opening_hours" class="form-control" placeholder="Enter opening hours"
-        value={{restaurant.opening_hours}}>
+        value="{{restaurant.opening_hours}}">
     </div>
 
     <div class="form-group">
