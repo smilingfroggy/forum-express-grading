@@ -57,7 +57,8 @@ module.exports = (app, passport) => {
   // 分類管理
   // read all
   app.get('/admin/categories', authenticatedAdmin, categoryController.getCategories)
-
+  // create new category
+  app.post('/admin/categories', authenticatedAdmin, categoryController.postCategory)
 
   // 使用者管理
   app.get('/admin/users', authenticatedAdmin, adminController.getUsers)
