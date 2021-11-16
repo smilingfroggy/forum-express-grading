@@ -48,10 +48,10 @@ module.exports = (app, passport) => {
   // edit one
   app.get('/admin/restaurants/:id/edit', authenticatedAdmin, adminController.editRestaurant)
 
-  app.put('/admin/restaurants/:id', authenticatedAdmin, adminController.putRestaurant)
+  app.put('/admin/restaurants/:id', authenticatedAdmin, upload.single('image'), adminController.putRestaurant)
 
   // delete
-  app.delete('/admin/restaurants/:id', authenticatedAdmin, upload.single('image'), adminController.deleteRestaurant)
+  app.delete('/admin/restaurants/:id', authenticatedAdmin, adminController.deleteRestaurant)
 
   // 使用者管理
   app.get('/admin/users', authenticatedAdmin, adminController.getUsers)
