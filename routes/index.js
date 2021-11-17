@@ -36,6 +36,8 @@ module.exports = (app, passport) => {
 
   app.post('/comments', authenticated, commentController.postComment)
 
+  app.delete('/comments/:id', authenticatedAdmin, commentController.deleteComment)
+
   // 管理員後台餐廳 CRUD
   app.get('/admin', authenticatedAdmin, (req, res) => { res.redirect('/admin/restaurants') })
   // read all
