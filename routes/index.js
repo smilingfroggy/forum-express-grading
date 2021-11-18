@@ -38,6 +38,13 @@ module.exports = (app, passport) => {
 
   app.delete('/comments/:id', authenticatedAdmin, commentController.deleteComment)
 
+  // R02 User Profile 
+  app.get('/users/:id', authenticated, userController.getUser)
+
+  app.get('/users/:id/edit', authenticated, userController.editUser)
+
+  app.put('/users/:id', authenticated, upload.single('image'), userController.putUser)
+
   // 管理員後台餐廳 CRUD
   app.get('/admin', authenticatedAdmin, (req, res) => { res.redirect('/admin/restaurants') })
   // read all
