@@ -1,8 +1,21 @@
-<div class="container m-3 d-flex">
-  <img class="img-responsive center-block" src="{{user.image}}" alt="profile-image" style="width: 250px; margin-bottom: 25px">
-  <div class="col-md-8 ml-5">
-    <h3>{{user.name}}</h3>
-    <p>{{user.email}}</p>
-    <a href="/users/{{user.id}}/edit" class="btn btn-primary" role="button">Edit</a>
+<div class="container m-3">
+  <div class="row">
+    <img class="img-responsive center-block mr-5" src="{{user.image}}" alt="profile-image"
+      style="width: 250px; margin-bottom: 25px">
+    <div class="col-md-8">
+      <h3>{{user.name}}</h3>
+      <p>{{user.email}}</p>
+      <a href="/users/{{user.id}}/edit" class="btn btn-primary" role="button">Edit</a>
+    </div>
+  </div>
+
+  <div class="card mt-5">
+    <h5 class="card-header">{{user.name}}已評論餐廳</h5>
+    <div class="card-body">
+      {{#each user.Comments}}
+      <a class="m-2" href="/restaurants/{{this.RestaurantId}}"><img class="img-responsive center-block"
+          src="{{this.Restaurant.image}}" alt="profile-image" style="width: 100px"></a>
+      {{/each}}
+    </div>
   </div>
 </div>
