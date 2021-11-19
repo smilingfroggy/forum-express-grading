@@ -56,6 +56,20 @@ const restController = {
         // console.log('restaurant.Comments[0].dataValues: ', restaurant.Comments[0].dataValues)
         return res.render('restaurant', { restaurant: restaurant.toJSON() })
       })
+  },
+  getDashBoard: (req, res) => {
+    return Restaurant.findByPk(req.params.id, { include: [Category] })
+      .then(restaurant => {
+        Comment.findAndCountAll({
+          where: { RestaurantId: req.params.id },
+        }).then(results => {
+          const viewCounts = results.count
+          return res.render('dashboard', {
+            restaurant: restaurant.toJSON(),
+            viewCounts: viewCounts
+          })
+        })
+      })
   }
 }
 
