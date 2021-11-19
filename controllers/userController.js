@@ -54,8 +54,7 @@ const userController = {
     res.redirect('/signin')
   },
   getUser: (req, res) => {
-    // console.log('start userController.getUser')
-    const myId = req.user.id
+    const myId = helpers.getUser(req).id
     return User.findByPk(req.params.id, {
       include: { model: Comment, include: [Restaurant] }
     })
@@ -66,7 +65,8 @@ const userController = {
       })
   },
   editUser: (req, res) => {
-    if (Number(req.params.id) !== req.user.id) {    // 只能編輯自己的profile
+    const myId = helpers.getUser(req).id
+    if (Number(req.params.id) !== myId) {   // 只能編輯自己的profile
       req.flash('error_messages', "No permission")
       return res.redirect(`/users/${req.params.id}`)
     }
