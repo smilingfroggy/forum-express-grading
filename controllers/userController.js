@@ -3,6 +3,7 @@ const db = require("../models")
 const User = db.User
 const Restaurant = db.Restaurant
 const Comment = db.Comment
+const helpers = require('../_helpers')
 const imgur = require('imgur-node-api')
 const IMGUR_CLIENT_ID = process.env.IMGUR_CLIENT_ID
 
@@ -54,16 +55,21 @@ const userController = {
   },
   getUser: (req, res) => {
     // console.log('start userController.getUser')
+    const myId = req.user.id
     return User.findByPk(req.params.id, {
       include: { model: Comment, include: [Restaurant] }
     })
       .then(user => {
         // console.log('userController.getUser..after then', user)
         // console.log('user.Comment', user.Comments)
-        return res.render('profile', { user: user.toJSON() })
+        return res.render('profile', { user: user.toJSON(), myId })
       })
   },
   editUser: (req, res) => {
+    if (Number(req.params.id) !== req.user.id) {    // 只能編輯自己的profile
+      req.flash('error_messages', "No permission")
+      return res.redirect(`/users/${req.params.id}`)
+    }
     return User.findByPk(req.params.id)
       .then(user => {
         return res.render('edit', { user: user.toJSON() })

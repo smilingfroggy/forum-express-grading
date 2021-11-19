@@ -5,7 +5,9 @@
     <div class="col-md-8">
       <h3>{{user.name}}</h3>
       <p>{{user.email}}</p>
+      {{#ifCond user.id myId}}
       <a href="/users/{{user.id}}/edit" class="btn btn-primary" role="button">Edit</a>
+      {{/ifCond}}
     </div>
   </div>
 
