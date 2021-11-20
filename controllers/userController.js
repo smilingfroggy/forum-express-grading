@@ -166,7 +166,8 @@ const userController = {
   },
   addLike: (req, res) => {
     return Like.create({
-      UserId: req.user.id,
+      // UserId: req.user.id,   //Change for R4test
+      UserId: helpers.getUser(req).id,
       RestaurantId: req.params.restaurantId
     }).then(like => {
       return res.redirect('back')
@@ -175,7 +176,8 @@ const userController = {
   removeLike: (req, res) => {
     return Like.destroy({
       where: {
-        UserId: req.user.id,
+        // UserId: req.user.id,  //Change for R4test
+        UserId: helpers.getUser(req).id,
         RestaurantId: req.params.restaurantId
       }
     }).then(like => {

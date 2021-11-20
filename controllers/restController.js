@@ -3,6 +3,7 @@ const Restaurant = db.Restaurant
 const Category = db.Category
 const Comment = db.Comment
 const User = db.User
+const helpers = require('../_helpers')
 const pageLimit = 10
 
 const restController = {
@@ -34,7 +35,8 @@ const restController = {
           ...r.dataValues,
           description: r.dataValues.description.substring(0, 50),
           categoryName: r.Category.name,
-          isFavorited: req.user.FavoritedRestaurants.map(d => d.id).includes(r.id)  //收藏餐廳id總清單 是否包含r.id
+          isFavorited: req.user.FavoritedRestaurants.map(d => d.id).includes(r.id),  //收藏餐廳id總清單 是否包含r.id
+          isLiked: req.user.LikedRestaurants.map(d => d.id).includes(r.id)
         }))
         Category.findAll({ raw: true, nest: true })
           .then(categories => {
@@ -52,17 +54,20 @@ const restController = {
       include: [
         Category,
         { model: Comment, include: [User] },
-        { model: User, as: 'FavoritedUsers' }
+        { model: User, as: 'FavoritedUsers' },
+        { model: User, as: 'LikedUsers' }
       ]
     })
       .then(restaurant => {
         restaurant.increment('viewCounts')
         // console.log('restaurant.Category.name: ', restaurant.Category.name)   //OK e.g."日本料理"
         // console.log('restaurant.Comments[0].dataValues: ', restaurant.Comments[0].dataValues)
-        const isFavorited = restaurant.FavoritedUsers.map(d => d.id).includes(req.user.id)  //收藏此餐廳的users' id 是否包含此已登入使用者的id
+        const isFavorited = restaurant.FavoritedUsers.map(d => d.id).includes(req.user.id)
+        //收藏此餐廳的users' id 是否包含此已登入使用者的id
+        const isLiked = restaurant.LikedUsers.map(d => d.id).includes(helpers.getUser(req).id)
         return res.render('restaurant', {
           restaurant: restaurant.toJSON(),
-          isFavorited
+          isFavorited, isLiked
         })
       })
   },
