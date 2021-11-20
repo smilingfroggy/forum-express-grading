@@ -49,13 +49,21 @@ const restController = {
   },
   getRestaurant: (req, res) => {
     Restaurant.findByPk(req.params.id, {
-      include: [Category, { model: Comment, include: [User] }]
+      include: [
+        Category,
+        { model: Comment, include: [User] },
+        { model: User, as: 'FavoritedUsers' }
+      ]
     })
       .then(restaurant => {
         restaurant.increment('viewCounts')
         // console.log('restaurant.Category.name: ', restaurant.Category.name)   //OK e.g."日本料理"
         // console.log('restaurant.Comments[0].dataValues: ', restaurant.Comments[0].dataValues)
-        return res.render('restaurant', { restaurant: restaurant.toJSON() })
+        const isFavorited = restaurant.FavoritedUsers.map(d => d.id).includes(req.user.id)  //收藏此餐廳的users' id 是否包含此已登入使用者的id
+        return res.render('restaurant', {
+          restaurant: restaurant.toJSON(),
+          isFavorited
+        })
       })
   },
   getDashBoard: (req, res) => {
