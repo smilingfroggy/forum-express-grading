@@ -52,9 +52,7 @@ const restController = {
       include: [Category, { model: Comment, include: [User] }]
     })
       .then(restaurant => {
-        restaurant.update({
-          viewCounts: (restaurant.viewCounts + 1)
-        })
+        restaurant.increment('viewCounts')
         // console.log('restaurant.Category.name: ', restaurant.Category.name)   //OK e.g."日本料理"
         // console.log('restaurant.Comments[0].dataValues: ', restaurant.Comments[0].dataValues)
         return res.render('restaurant', { restaurant: restaurant.toJSON() })
