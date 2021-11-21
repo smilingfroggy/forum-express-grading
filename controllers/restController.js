@@ -84,6 +84,26 @@ const restController = {
           })
         })
       })
+  },
+  getTopRestaurant: (req, res) => {
+    return Restaurant.findAll({
+      include: [
+        Category,
+        { model: User, as: 'FavoritedUsers' }]
+    }).then(restaurants => {
+      // 找出top 10 餐廳
+      restaurants = restaurants.map(restaurant => ({
+        ...restaurant.dataValues,
+        description: restaurant.dataValues.description.substring(0, 50),
+        favoritedCount: restaurant.FavoritedUsers.length, //各餐廳被加入最愛數量
+        // isFavorited: req.user.FavoritedRestaurants.map(d => d.id).includes(restaurant.id)  //是否被登入者加到最愛
+        isFavorited: helpers.getUser(req).FavoritedRestaurants.map(d => d.id).includes(restaurant.id)
+      }))
+      // let topRestaurants = restaurants.sort((a,b) => b.favoritedCount - a.favoritedCount)
+      // topRestaurants = topRestaurants.slice(0, 10)
+      restaurants = restaurants.sort((a, b) => b.favoritedCount - a.favoritedCount).slice(0, 10)
+      return res.render('topRestaurant', { restaurants })
+    })
   }
 }
 
