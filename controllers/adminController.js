@@ -1,4 +1,5 @@
 const fs = require('fs')
+const adminService = require('../services/adminService')
 const db = require('../models')
 const Restaurant = db.Restaurant
 const User = db.User
@@ -8,15 +9,9 @@ const IMGUR_CLIENT_ID = process.env.IMGUR_CLIENT_ID
 
 const adminController = {
   getRestaurants: (req, res) => {
-    Restaurant.findAll({
-      raw: true,
-      nest: true,
-      include: [Category]
+    adminService.getRestaurants(req, res, (data) => {
+    return res.render('admin/restaurants', data)
     })
-      .then(restaurants => {
-        // console.log('Show all restaurants', restaurants)
-        return res.render('admin/restaurants', { restaurants: restaurants })
-      })
   },
   createRestaurant: (req, res) => {
     Category.findAll({ raw: true, nest: true })

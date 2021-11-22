@@ -1,8 +1,8 @@
 // const express = require('express')
 // const router = express.Router()
 
-let routes = require('./routes')
-let apis = require('./apis')
+const routes = require('./routes')
+const apis = require('./apis')
 
 
 module.exports = (app) => {
