@@ -22,7 +22,8 @@ const restController = {
       include: Category,
       where: whereQuery,
       limit: pageLimit,
-      offset: offset
+      offset: offset,
+      order: ['id']
     })
       .then(result => {
         const page = Number(req.query.page) || 1  //目前要顯示哪一頁
