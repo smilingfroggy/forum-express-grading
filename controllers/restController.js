@@ -87,9 +87,7 @@ const restController = {
   },
   getTopRestaurant: (req, res) => {
     return Restaurant.findAll({
-      include: [
-        Category,
-        { model: User, as: 'FavoritedUsers' }]
+      include: [{ model: User, as: 'FavoritedUsers' }],
     }).then(restaurants => {
       // 找出top 10 餐廳
       restaurants = restaurants.map(restaurant => ({
