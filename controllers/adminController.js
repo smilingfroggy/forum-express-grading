@@ -10,7 +10,7 @@ const IMGUR_CLIENT_ID = process.env.IMGUR_CLIENT_ID
 const adminController = {
   getRestaurants: (req, res) => {
     adminService.getRestaurants(req, res, (data) => {
-    return res.render('admin/restaurants', data)
+      return res.render('admin/restaurants', data)
     })
   },
   createRestaurant: (req, res) => {
@@ -121,13 +121,12 @@ const adminController = {
     }
   },
   deleteRestaurant: (req, res) => {
-    return Restaurant.findByPk(req.params.id)
-      .then(restaurant => {
-        restaurant.destroy()
-          .then(restaurant => {
-            res.redirect('/admin/restaurants')
-          })
-      })
+    adminService.deleteRestaurant(req, res, (data) => {
+      if (data['status'] === 'success') {
+        return res.redirect('/admin/restaurants')
+      }
+
+    })
   },
   // R01: 顯示使用者清單
   getUsers: (req, res) => {
