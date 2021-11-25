@@ -26,7 +26,7 @@ const adminService = {
   },
   postRestaurant: (req, res, callback) => {
     if (!req.body.name) { // name欄位必填驗證
-      callback({ status: 'error', message: "Name didn't exist"})
+      return callback({ status: 'error', message: "Name didn't exist"})
     }
     const { file } = req  //解構賦值 file = req.file
     if (file) {
@@ -43,8 +43,6 @@ const adminService = {
         })
           .then(restaurant => {
             callback({ status: 'success', message:'restaurant was successfully created'})
-            // req.flash('success_messages', 'restaurant was successfully created')
-            // return res.redirect('/admin/restaurants')
           })
       })
     } else {
