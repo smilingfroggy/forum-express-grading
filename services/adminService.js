@@ -24,6 +24,44 @@ const adminService = {
         callback({ restaurant: restaurant.toJSON() })
       })
   },
+  postRestaurant: (req, res, callback) => {
+    if (!req.body.name) { // name欄位必填驗證
+      callback({ status: 'error', message: "Name didn't exist"})
+    }
+    const { file } = req  //解構賦值 file = req.file
+    if (file) {
+      imgur.setClientID(IMGUR_CLIENT_ID)
+      imgur.upload(file.path, (err, img) => {
+        return Restaurant.create({
+          name: req.body.name,
+          CategoryId: req.body.categoryId,
+          tel: req.body.tel,
+          address: req.body.address,
+          opening_hours: req.body.opening_hour,
+          description: req.body.description,
+          image: file ? img.data.link : null
+        })
+          .then(restaurant => {
+            callback({ status: 'success', message:'restaurant was successfully created'})
+            // req.flash('success_messages', 'restaurant was successfully created')
+            // return res.redirect('/admin/restaurants')
+          })
+      })
+    } else {
+      return Restaurant.create({
+        name: req.body.name,
+        CategoryId: req.body.categoryId,
+        tel: req.body.tel,
+        address: req.body.address,
+        opening_hours: req.body.opening_hour,
+        description: req.body.description,
+        image: null
+      })
+        .then((restaurant) => {
+          callback({ status: 'success', message: 'restaurant was successfully created' })
+        })
+    }
+  },
   deleteRestaurant: (req, res, callback) => {
     return Restaurant.findByPk(req.params.id)
       .then(restaurant => {

@@ -21,6 +21,7 @@ app.engine('handlebars', handlebars({
 app.set('view engine', 'handlebars')
 
 app.use(express.urlencoded({ extented: true }))
+app.use(express.json())
 app.use(methodOverride('_method'))
 app.use('/upload', express.static(__dirname + '/upload'))
 

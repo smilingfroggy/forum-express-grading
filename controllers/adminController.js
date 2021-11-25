@@ -20,43 +20,14 @@ const adminController = {
       })
   },
   postRestaurant: (req, res) => {
-    if (!req.body.name) { // name欄位必填驗證
-      req.flash('error_messages', "Name didn't exist")
-      return res.redirect('back')
-    }
-    const { file } = req  //解構賦值 file = req.file
-    if (file) {
-      imgur.setClientID(IMGUR_CLIENT_ID)
-      imgur.upload(file.path, (err, img) => {
-        return Restaurant.create({
-          name: req.body.name,
-          CategoryId: req.body.categoryId,
-          tel: req.body.tel,
-          address: req.body.address,
-          opening_hours: req.body.opening_hour,
-          description: req.body.description,
-          image: file ? img.data.link : null
-        })
-          .then(restaurant => {
-            req.flash('success_messages', 'restaurant was successfully created')
-            return res.redirect('/admin/restaurants')
-          })
-      })
-    } else {
-      return Restaurant.create({
-        name: req.body.name,
-        CategoryId: req.body.categoryId,
-        tel: req.body.tel,
-        address: req.body.address,
-        opening_hours: req.body.opening_hour,
-        description: req.body.description,
-        image: null
-      })
-        .then((restaurant) => {
-          req.flash('success_messages', 'Restaurant was successfully created!')
-          res.redirect('/admin/restaurants')
-        })
-    }
+    adminService.postRestaurant(req, res, (data) => {
+      if (data['status'] === 'error' ) { // name欄位必填驗證
+        req.flash('error_messages', data['message'])
+        return res.redirect('back')
+      }
+      req.flash('success_messages', data['message'])
+      res.redirect('/admin/restaurants')
+    })
   },
   getRestaurant: (req, res) => {
     adminService.getRestaurant(req, res, (data) => {
@@ -125,7 +96,6 @@ const adminController = {
       if (data['status'] === 'success') {
         return res.redirect('/admin/restaurants')
       }
-
     })
   },
   // R01: 顯示使用者清單
