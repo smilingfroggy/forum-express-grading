@@ -30,13 +30,10 @@ const categoryController = {
     })
   },
   deleteCategory: (req, res) => {
-    Category.findByPk(req.params.id)
-      .then(category => {
-        category.destroy()
-          .then(category => {
-            res.redirect('/admin/categories')
-          })
-      })
+    categoryService.deleteCategory(req, res, (data) => {
+      req.flash('success_messages', data['message'])
+      return res.redirect('/admin/categories')
+    })
   }
 }
 

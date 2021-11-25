@@ -32,7 +32,7 @@ const categoryService = {
   },
   putCategory: (req, res, callback) => {
     if (!req.body.name) {
-      return callback({ status: 'error', message: "Name didn't exist!"})
+      return callback({ status: 'error', message: "Name didn't exist!" })
     }
     return Category.findByPk(req.params.id)
       .then(category => {
@@ -44,6 +44,15 @@ const categoryService = {
           })
       })
   },
+  deleteCategory: (req, res, callback) => {
+    Category.findByPk(req.params.id)
+      .then(category => {
+        category.destroy()
+          .then(category => {
+            callback({ status: 'success', message: 'Category was deleted' })
+          })
+      })
+  }
 }
 
 module.exports = categoryService
