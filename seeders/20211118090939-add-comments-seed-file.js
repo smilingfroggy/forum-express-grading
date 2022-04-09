@@ -4,12 +4,12 @@ const faker = require('faker');
 module.exports = {
   up: async (queryInterface, Sequelize) => {
     await queryInterface.bulkInsert('Comments',
-      Array.from({ length: 10 }).map((item, index) => ({
+      Array.from({ length: 20 }).map((item, index) => ({
         text: faker.lorem.sentence(),
-        createdAt: new Date(),
+        createdAt: faker.date.recent(10),
         updatedAt: new Date(),
         UserId: Math.ceil(Math.random() * 3),  // 1,2,3
-        RestaurantId: Math.ceil(Math.random() * 5)  //1,2,..4,5
+        RestaurantId: Math.ceil(Math.random() * 10 )  //1,2,..9,10
       })), {})
   },
 
