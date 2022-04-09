@@ -17,6 +17,7 @@ module.exports = {
       password: bcrypt.hashSync('12345678', bcrypt.genSaltSync(10), null),
       isAdmin: true,
       name: 'root',
+      image: 'https://i.pravatar.cc/300?u=root1',
       createdAt: new Date(),
       updatedAt: new Date()
     }, {
@@ -24,6 +25,7 @@ module.exports = {
       password: bcrypt.hashSync('12345678', bcrypt.genSaltSync(10), null),
       isAdmin: false,
       name: 'user1',
+      image: 'https://i.pravatar.cc/300?u=user1',
       createdAt: new Date(),
       updatedAt: new Date()
     }, {
@@ -31,6 +33,15 @@ module.exports = {
       password: bcrypt.hashSync('12345678', bcrypt.genSaltSync(10), null),
       isAdmin: false,
       name: 'user2',
+      image: 'https://i.pravatar.cc/300?u=user2',
+      createdAt: new Date(),
+      updatedAt: new Date()
+    }, {
+      email: 'user3@example.com',
+      password: bcrypt.hashSync('12345678', bcrypt.genSaltSync(10), null),
+      isAdmin: false,
+      name: 'user3',
+      image: 'https://i.pravatar.cc/300?u=user3',
       createdAt: new Date(),
       updatedAt: new Date()
     }], {})
