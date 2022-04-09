@@ -5,6 +5,7 @@ const Restaurant = db.Restaurant
 const Comment = db.Comment
 const Favorite = db.Favorite
 const Like = db.Like
+const Category = db.Category
 const Followship = db.Followship
 const helpers = require('../_helpers')
 const imgur = require('imgur-node-api')
