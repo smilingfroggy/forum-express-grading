@@ -1,7 +1,6 @@
 const fs = require('fs')
 const db = require('../models')
 const Restaurant = db.Restaurant
-const User = db.User
 const Category = db.Category
 const imgur = require('imgur-node-api')
 const IMGUR_CLIENT_ID = process.env.IMGUR_CLIENT_ID
@@ -17,12 +16,14 @@ const adminService = {
         callback({ restaurants })
         // return res.render('admin/restaurants', { restaurants: restaurants })
       })
+      .catch(err => console.log(error))
   },
   getRestaurant: (req, res, callback) => {
     return Restaurant.findByPk(req.params.id, { include: [Category] })
       .then(restaurant => {
         callback({ restaurant: restaurant.toJSON() })
       })
+      .catch(err => console.log(error))
   },
   postRestaurant: (req, res, callback) => {
     if (!req.body.name) { // name欄位必填驗證
@@ -44,6 +45,7 @@ const adminService = {
           .then(restaurant => {
             callback({ status: 'success', message:'restaurant was successfully created'})
           })
+          .catch(err => console.log(error))
       })
     } else {
       return Restaurant.create({
@@ -58,6 +60,7 @@ const adminService = {
         .then((restaurant) => {
           callback({ status: 'success', message: 'restaurant was successfully created' })
         })
+        .catch(err => console.log(error))
     }
   },
   putRestaurant: (req, res, callback) => {
@@ -109,6 +112,7 @@ const adminService = {
             callback({ status: 'success', message: '' })
           })
       })
+      .catch(err => console.log(error))
   },
 }
 

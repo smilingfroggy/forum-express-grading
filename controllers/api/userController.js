@@ -35,6 +35,7 @@ let userController = {
           }
         })
       })
+      .catch(err => console.log(error))
   },
   signUp: (req, res) => {
     if (req.body.passwordCheck !== req.body.password) {
@@ -52,6 +53,7 @@ let userController = {
               return res.json({ status: 'success', message: '成功註冊帳號'})
             })
         })
+        .catch(err => console.log(error))
     }
   }
 }

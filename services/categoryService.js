@@ -18,6 +18,7 @@ const categoryService = {
           callback({ categories })
         }
       })
+      .catch(err => console.log(error))
   },
   postCategory: (req, res, callback) => {
     if (!req.body.name) {
@@ -29,6 +30,7 @@ const categoryService = {
       .then(category => {
         return callback({ status: 'success', message: "Category created successfully!" })
       })
+      .catch(err => console.log(error))
   },
   putCategory: (req, res, callback) => {
     if (!req.body.name) {
@@ -43,6 +45,7 @@ const categoryService = {
             return callback({ status: 'success', message: "Category updated successfully!" })
           })
       })
+      .catch(err => console.log(error))
   },
   deleteCategory: (req, res, callback) => {
     Category.findByPk(req.params.id)
@@ -52,6 +55,7 @@ const categoryService = {
             callback({ status: 'success', message: 'Category was deleted' })
           })
       })
+      .catch(err => console.log(error))
   }
 }
 

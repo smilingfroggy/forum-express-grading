@@ -49,6 +49,7 @@ const restController = {
             })
           })
       })
+      .catch(err => console.log(error))
   },
   getRestaurant: (req, res) => {
     Restaurant.findByPk(req.params.id, {
@@ -71,6 +72,7 @@ const restController = {
           isFavorited, isLiked
         })
       })
+      .catch(err => console.log(error))
   },
   getDashBoard: (req, res) => {
     return Restaurant.findByPk(req.params.id, { include: [Category] })
@@ -85,6 +87,7 @@ const restController = {
           })
         })
       })
+      .catch(err => console.log(error))
   },
   getTopRestaurant: (req, res) => {
     return Restaurant.findAll({
@@ -103,6 +106,7 @@ const restController = {
       restaurants = restaurants.sort((a, b) => b.favoritedCount - a.favoritedCount).slice(0, 10)
       return res.render('topRestaurant', { restaurants })
     })
+      .catch(err => console.log(error))
   }
 }
 

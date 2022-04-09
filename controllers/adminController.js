@@ -45,7 +45,7 @@ const adminController = {
             })
           })
       })
-
+      .catch(err => console.log(error))
   },
   putRestaurant: (req, res) => {
     adminService.putRestaurant(req, res, (data) => {
@@ -70,6 +70,7 @@ const adminController = {
       .then(users => {
         res.render("admin/users", { users })
       })
+      .catch(err => console.log(error))
   },
   // R01: 修改使用者權限
   toggleAdmin: (req, res) => {

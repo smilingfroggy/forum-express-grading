@@ -11,6 +11,7 @@ const commentController = {
       .then(comment => {
         res.redirect(`/restaurants/${req.body.restaurantId}`)
       })
+      .catch(err => console.log(error))
   },
   deleteComment: (req, res) => {
     Comment.findByPk(req.params.id)
@@ -20,6 +21,7 @@ const commentController = {
             return res.redirect(`/restaurants/${comment.RestaurantId}`)
           })
       })
+      .catch(err => console.log(error))
   }
 }
 

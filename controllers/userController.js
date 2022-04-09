@@ -42,6 +42,7 @@ const userController = {
               })
           }
         })
+        .catch(err => console.log(error))
     }
   },
   signInPage: (req, res) => {
@@ -63,10 +64,9 @@ const userController = {
       include: { model: Comment, include: [Restaurant] }
     })
       .then(user => {
-        // console.log('userController.getUser..after then', user)
-        // console.log('user.Comment', user.Comments)
         return res.render('profile', { user: user.toJSON(), myId })
       })
+      .catch(err => console.log(error))
   },
   editUser: (req, res) => {
     const myId = helpers.getUser(req).id
@@ -142,6 +142,7 @@ const userController = {
     ]).then(([restaurants, comments]) => {
       return res.render('feeds', { restaurants, comments })
     })
+      .catch(err => console.log(error))
   },
   addFavorite: (req, res) => {
     return Favorite.create({
@@ -151,6 +152,7 @@ const userController = {
       .then(restaurant => {
         return res.redirect('back')
       })
+      .catch(err => console.log(error))
   },
   removeFavorite: (req, res) => {
     return Favorite.destroy({
@@ -163,6 +165,7 @@ const userController = {
       .then((favorite) => {
         return res.redirect('back')
       })
+      .catch(err => console.log(error))
   },
   addLike: (req, res) => {
     return Like.create({
@@ -172,6 +175,7 @@ const userController = {
     }).then(like => {
       return res.redirect('back')
     })
+      .catch(err => console.log(error))
   },
   removeLike: (req, res) => {
     return Like.destroy({
@@ -183,6 +187,7 @@ const userController = {
     }).then(like => {
       return res.redirect('back')
     })
+    .catch(err => console.log(error))
   },
   getTopUser: (req, res) => {
     return User.findAll({
@@ -197,6 +202,7 @@ const userController = {
       users = users.sort((a, b) => b.FollowerCount - a.FollowerCount)
       res.render('topUser', { users })
     })
+      .catch(err => console.log(error))
   },
   addFollowing: (req, res) => {
     return Followship.create({
@@ -205,6 +211,7 @@ const userController = {
     }).then(followship => {
       return res.redirect('back')
     })
+      .catch(err => console.log(error))
   },
   removeFollowing: (req, res) => {
     return Followship.findOne({
@@ -219,6 +226,7 @@ const userController = {
             return res.redirect('back')
           })
       })
+      .catch(err => console.log(error))
   }
 }
 
