@@ -15,7 +15,7 @@
     <h5 class="card-header">{{user.name}}已評論餐廳</h5>
     <div class="card-body">
       {{#each user.Comments}}
-      <a class="m-2" href="/restaurants/{{this.RestaurantId}}"><img class="img-responsive center-block"
+      <a class="m-2" href="/restaurants/{{this.RestaurantId}}"><img class="img-responsive center-block my-3"
           src="{{this.Restaurant.image}}" alt="profile-image" style="width: 100px"></a>
       {{/each}}
     </div>
